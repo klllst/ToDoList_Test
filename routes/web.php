@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    return redirect()->route('tasks'); // Перенаправление на страницу задач
+})->middleware('auth');
 
 Auth::routes();
-Route::get('/tasks', 'TaskController@index');
-Route::post('/task', 'TaskController@store');
-Route::delete('/task/{task}', 'TaskController@destroy');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks');
+Route::post('/task', [App\Http\Controllers\TaskController::class, 'store'])->name('task');
+Route::delete('/task/{task}', [App\Http\Controllers\TaskController::class, 'destroy'])->name('task');
